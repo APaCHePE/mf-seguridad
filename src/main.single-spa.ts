@@ -20,7 +20,7 @@ const lifecycles = singleSpaAngular({
     singleSpaPropsSubject.next(singleSpaProps);
     return bootstrapApplication(AppComponent, appConfig);
   },
-  template: '<app-layout />',
+  template: '<app-seguridad />',
   Router,
   NavigationStart,
   NgZone,
