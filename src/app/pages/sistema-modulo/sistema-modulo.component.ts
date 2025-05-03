@@ -24,8 +24,8 @@ interface Tab {
 })
 export class SistemaModuloComponent {
   tabs: Tab[] = [
-    { header: 'Sistemas', content: SistemaListComponent },
-    { header: 'Módulos', content: ModuloListComponent }
+    { header: 'Módulos', content: ModuloListComponent },
+    { header: 'Sistemas', content: SistemaListComponent }
   ];
   activeIndex: number = 0;
 }

@@ -1,0 +1,68 @@
+<form [formGroup]="sistemaForm" (ngSubmit)="onSubmit()" class="grid formgrid">
+  <!-- Nombre -->
+  <div class="field col-12 md:col-6">
+    <label for="nombre" class="block text-900 font-medium mb-2">Nombre</label>
+    <input pInputText id="nombre" formControlName="nombre" 
+           [disabled]="disabledFields.includes('nombre')" 
+           class="w-full" placeholder="Ingrese el nombre del sistema" />
+    <small *ngIf="sistemaForm.get('nombre')?.errors?.['required']" class="p-error block mt-1">
+      <i class="pi pi-exclamation-circle mr-1"></i>Nombre es requerido
+    </small>
+    <small *ngIf="sistemaForm.get('nombre')?.errors?.['maxlength']" class="p-error block mt-1">
+      <i class="pi pi-exclamation-circle mr-1"></i>Máximo 50 caracteres
+    </small>
+  </div>
+
+  <!-- Código -->
+  <div class="field col-12 md:col-6">
+    <label for="codigo" class="block text-900 font-medium mb-2">Código</label>
+    <input pInputText id="codigo" formControlName="codigo" 
+           [disabled]="disabledFields.includes('codigo')" 
+           class="w-full" placeholder="Ej: SEGURIDAD" />
+    <small *ngIf="sistemaForm.get('codigo')?.errors?.['required']" class="p-error block mt-1">
+      <i class="pi pi-exclamation-circle mr-1"></i>Código es requerido
+    </small>
+    <small *ngIf="sistemaForm.get('codigo')?.errors?.['pattern']" class="p-error block mt-1">
+      <i class="pi pi-exclamation-circle mr-1"></i>Solo mayúsculas y guiones bajos
+    </small>
+  </div>
+
+  <!-- Icono -->
+  <div class="field col-12 md:col-6">
+    <label for="icono" class="block text-900 font-medium mb-2">Icono</label>
+    <p-dropdown [options]="iconOptions" formControlName="icono" 
+                optionLabel="label" optionValue="value"
+                [disabled]="disabledFields.includes('icono')"
+                placeholder="Seleccione un icono"
+                class="w-full">
+      <ng-template let-icon pTemplate="selectedItem">
+        <i class="pi {{icon.value}} mr-2"></i>
+        <span>{{icon.label}}</span>
+      </ng-template>
+      <ng-template let-icon pTemplate="item">
+        <i class="pi {{icon.value}} mr-2"></i>
+        <span>{{icon.label}}</span>
+      </ng-template>
+    </p-dropdown>
+  </div>
+
+  <!-- Estado -->
+  <div class="field col-12 md:col-6 flex align-items-center">
+    <label for="activo" class="block text-900 font-medium mb-2 mr-3">Estado</label>
+    <div class="flex align-items-center">
+      <p-inputSwitch formControlName="activo" inputId="activo"
+                    [disabled]="disabledFields.includes('activo')"
+                    class="mr-2"></p-inputSwitch>
+      <span class="text-900">{{ sistemaForm.get('activo')?.value ? 'Activo' : 'Inactivo' }}</span>
+    </div>
+  </div>
+
+  <!-- Botones -->
+  <div class="field col-12 flex justify-content-end gap-3 mt-4">
+    <button pButton type="button" label="Cancelar" 
+            icon="pi pi-times" class="p-button-outlined p-button-secondary"></button>
+    <button pButton type="submit" label="Guardar" 
+            icon="pi pi-check" class="p-button-primary" 
+            [disabled]="sistemaForm.invalid"></button>
+  </div>
+</form>

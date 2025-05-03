@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
-import { TableModule } from 'primeng/table';
+import {Table, TableModule} from 'primeng/table';
 import { Tooltip } from 'primeng/tooltip';
 import { ButtonModule } from 'primeng/button';
 import { NgClass, NgIf, NgFor } from '@angular/common';
@@ -12,7 +12,15 @@ import { TableConfig, TableAction, TagSeverity } from '../../models/table-config
   standalone: true,
   templateUrl: './dynamic-table.component.html',
   styleUrls: ['./dynamic-table.component.scss'],
-  imports: [TableModule, Tooltip, Tag, ButtonModule, NgClass, NgIf, NgFor]
+  imports: [
+    TableModule, 
+    Tooltip, 
+    Tag, 
+    ButtonModule, 
+    NgClass, 
+    NgIf, 
+    NgFor
+  ]
 })
 export class DynamicTableComponent {
   @Input() config!: TableConfig;

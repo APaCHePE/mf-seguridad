@@ -1,0 +1,76 @@
+:host {
+  display: block;
+  padding: 2rem;
+  background-color: var(--surface-card);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+/* Estilos para el formulario */
+.formgrid {
+  margin: 0;
+  padding: 0;
+  row-gap: 1.5rem;
+}
+
+/* Estilos para los campos */
+.field {
+  margin-bottom: 0;
+
+  /* Estilos para inputs */
+  .p-inputtext {
+    border-radius: 8px;
+    padding: 0.75rem;
+
+    &:enabled:hover {
+      border-color: var(--primary-400);
+    }
+
+    &:enabled:focus {
+      box-shadow: 0 0 0 1px var(--primary-400);
+      border-color: var(--primary-400);
+    }
+  }
+
+  /* Estilos para dropdown */
+  .p-dropdown {
+    .p-dropdown-label {
+      padding: 0.75rem;
+    }
+
+    .p-dropdown-trigger {
+      width: 2.5rem;
+    }
+  }
+
+  /* Estilos para mensajes de error */
+  .p-error {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+  }
+}
+
+/* Estilos para los botones */
+.p-button {
+  min-width: 120px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+
+  .pi {
+    font-size: 1rem;
+  }
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  :host {
+    padding: 1.5rem;
+  }
+
+  .field {
+    &.col-12, &.col-6 {
+      width: 100%;
+    }
+  }
+}

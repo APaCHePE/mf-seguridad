@@ -1,17 +1,22 @@
-<div [class]="styleClass">
-  <p-tabView 
-    [(activeIndex)]="activeIndex"
-    scrollable="false"
-    class="simple-tab-view"
-  >
-    <p-tabPanel 
-      *ngFor="let tab of tabs" 
-      [header]="tab.header"
-      [disabled]="tab.disabled ?? false"
-      [closable]="false"
-    >
-      <ng-container *ngComponentOutlet="tab.content">
+<!-- <div [class]="styleClass"> -->
+<div>
+  <div class="card">
+    <p-tabs [(value)]="activeIndex">
+      <p-tablist>
+        <p-tab *ngFor="let tab of tabs; let i = index" [value]="i" [disabled]="tab.disabled ?? false">
+          <span class="flex align-items-center gap-2">
+            <i [class]="tab.icon" *ngIf="tab.icon"></i>
+            {{tab.header}}
+          </span>
+        </p-tab>
+      </p-tablist>
+    </p-tabs>
+
+    <div class="tab-content p-4">
+      <ng-container *ngIf="tabs[activeIndex]">
+        <ng-container *ngComponentOutlet="tabs[activeIndex].content">
+        </ng-container>
       </ng-container>
-    </p-tabPanel>
-  </p-tabView>
+    </div>
+  </div>
 </div>
