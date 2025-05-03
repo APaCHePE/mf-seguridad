@@ -1,0 +1,81 @@
+:host {
+  display: block;
+  width: 100%;
+
+  /* Estilos simplificados para el tabview */
+  .simple-tab-view {
+    .p-tabview-nav {
+      display: flex;
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      white-space: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; /* Firefox */
+
+      /* Oculta la barra de scroll en WebKit */
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      li {
+        flex: 0 0 auto;
+        margin-right: 0.25rem;
+
+        /* Elimina el botón de cerrar */
+        .p-tabview-nav-link .p-tabview-close {
+          display: none;
+        }
+
+        .p-tabview-nav-link {
+          border: none;
+          background: var(--surface-d);
+          color: var(--text-color);
+          padding: 0.75rem 1.25rem;
+          border-radius: 6px 6px 0 0;
+          transition: all 0.2s ease;
+          font-weight: 500;
+
+          &:not(.p-disabled):focus {
+            box-shadow: none;
+          }
+        }
+
+        &.p-highlight .p-tabview-nav-link {
+          background: var(--surface-a);
+          color: var(--primary-color);
+          font-weight: 600;
+        }
+      }
+    }
+
+    .p-tabview-panels {
+      background: var(--surface-a);
+      padding: 1.5rem;
+      border: none;
+      border-radius: 0 6px 6px 6px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  /* Estilos responsivos */
+  @media screen and (max-width: 768px) {
+    .simple-tab-view {
+      .p-tabview-nav {
+        li {
+          .p-tabview-nav-link {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+          }
+        }
+      }
+
+      .p-tabview-panels {
+        padding: 1rem;
+      }
+    }
+  }
+}

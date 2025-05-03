@@ -1,0 +1,111 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* Estilos para la tabla */
+.p-datatable {
+  width: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  /* Cabecera de la tabla */
+  .p-datatable-thead > tr > th {
+    background-color: var(--surface-b);
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 1rem;
+    border-bottom: 1px solid var(--surface-d);
+    
+    &.p-sortable-column {
+      &:hover {
+        background-color: var(--surface-c);
+      }
+      
+      &.p-highlight {
+        background-color: var(--surface-d);
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  /* Cuerpo de la tabla */
+  .p-datatable-tbody > tr {
+    transition: background-color 0.2s;
+    border-bottom: 1px solid var(--surface-d);
+    
+    > td {
+      padding: 1rem;
+      vertical-align: middle;
+    }
+    
+    &:hover {
+      background-color: var(--surface-b);
+    }
+    
+    /* Celda de acciones */
+    .actions-cell {
+      opacity: 0;
+      transition: opacity 0.2s;
+      
+      .p-button {
+        margin: 0 0.25rem;
+      }
+    }
+    
+    &:hover .actions-cell {
+      opacity: 1;
+    }
+  }
+
+  /* Mensaje cuando no hay datos */
+  .p-datatable-emptymessage td {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-color-secondary);
+  }
+}
+
+/* Paginador */
+.p-paginator {
+  background-color: var(--surface-a);
+  border: none;
+  border-top: 1px solid var(--surface-d);
+  padding: 0.75rem;
+}
+
+/* Estilos responsivos */
+@media screen and (max-width: 768px) {
+  .p-datatable {
+    .p-datatable-thead {
+      display: none;
+    }
+    
+    .p-datatable-tbody > tr {
+      display: block;
+      margin-bottom: 1rem;
+      border: 1px solid var(--surface-d);
+      border-radius: 6px;
+      
+      > td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        border: none;
+        
+        &:before {
+          content: attr(data-label);
+          font-weight: 600;
+          margin-right: 1rem;
+        }
+      }
+      
+      .actions-cell {
+        opacity: 1;
+        justify-content: flex-end;
+      }
+    }
+  }
+}

@@ -4,7 +4,7 @@ import {ChartModule} from 'primeng/chart';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
-import { LayoutService } from '../../../../layout/service/layout.service';
+import { LayoutService } from '../../../layout/service/layout.service';
 import {debounceTime, Subscription} from 'rxjs';
 
 @Component({

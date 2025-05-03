@@ -1,0 +1,59 @@
+:host ::ng-deep {
+  .p-tabview {
+    .p-tabview-nav {
+      border-radius: 0;
+      border: none;
+      background: transparent;
+      
+      li {
+        margin-right: 0.5rem;
+        
+        .p-tabview-nav-link {
+          border: none;
+          background: var(--surface-d);
+          border-radius: 6px 6px 0 0;
+          
+          &:not(.p-disabled):focus {
+            box-shadow: none;
+          }
+        }
+        
+        &.p-highlight .p-tabview-nav-link {
+          background: var(--surface-a);
+        }
+      }
+    }
+    
+    .p-tabview-panels {
+      background: var(--surface-a);
+      padding: 1.5rem;
+      border: none;
+      border-radius: 0 6px 6px 6px;
+    }
+  }
+  
+  .p-treetable {
+    .p-treetable-tbody {
+      tr {
+        td {
+          border: none;
+        }
+      }
+    }
+  }
+  
+  .p-datatable {
+    .p-datatable-tbody {
+      tr {
+        td {
+          border: none;
+        }
+      }
+    }
+  }
+  
+  .p-button.p-button-sm {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.875rem;
+  }
+}

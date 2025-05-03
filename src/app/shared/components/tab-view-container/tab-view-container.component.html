@@ -1,0 +1,17 @@
+<div [class]="styleClass">
+  <p-tabView 
+    [(activeIndex)]="activeIndex"
+    scrollable="false"
+    class="simple-tab-view"
+  >
+    <p-tabPanel 
+      *ngFor="let tab of tabs" 
+      [header]="tab.header"
+      [disabled]="tab.disabled ?? false"
+      [closable]="false"
+    >
+      <ng-container *ngComponentOutlet="tab.content">
+      </ng-container>
+    </p-tabPanel>
+  </p-tabView>
+</div>

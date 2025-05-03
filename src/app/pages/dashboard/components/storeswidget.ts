@@ -1,7 +1,7 @@
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartModule, UIChart } from 'primeng/chart';
-import { LayoutService } from '../../../../layout/service/layout.service';
+import { LayoutService } from '../../../layout/service/layout.service';
 import { debounceTime, Subscription } from 'rxjs';
 
 @Component({

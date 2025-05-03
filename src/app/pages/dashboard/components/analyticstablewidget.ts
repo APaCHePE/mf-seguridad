@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { ProductService } from '../../../service/product.service';
-import { Product } from '../../../../type/product';
+import { ProductService } from '../../service/product.service';
+import { Product } from '../../../type/product';
 import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';

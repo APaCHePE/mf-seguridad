@@ -3,7 +3,7 @@ import { ButtonModule } from 'primeng/button';
 import { Ripple } from 'primeng/ripple';
 import { MenuModule } from 'primeng/menu';
 import { ChartModule, UIChart } from 'primeng/chart';
-import { LayoutService } from '../../../../layout/service/layout.service';
+import { LayoutService } from '../../../layout/service/layout.service';
 import { debounceTime, Subscription } from 'rxjs';
 
 @Component({

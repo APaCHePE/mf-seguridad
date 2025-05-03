@@ -1,0 +1,365 @@
+<div class="card">
+  <h1 class="text-3xl font-semibold mb-6">Administración de Sistemas y Módulos</h1>
+  
+  <p-tabView>
+    <!-- Tab de Sistemas -->
+    <p-tabPanel header="Sistemas">
+      <div class="flex justify-content-between mb-4">
+        <p-button 
+          icon="pi pi-plus" 
+          label="Nuevo Sistema" 
+          (onClick)="showNewSystemDialog()">
+        </p-button>
+        
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input 
+            pInputText 
+            type="text" 
+            placeholder="Buscar sistemas..." 
+            [(ngModel)]="systemFilter"
+            (input)="filterSystems()">
+        </span>
+      </div>
+      
+      <p-table 
+        [value]="filteredSystems" 
+        [paginator]="true" 
+        [rows]="10"
+        [rowsPerPageOptions]="[5,10,25,50]"
+        [loading]="loading"
+        styleClass="p-datatable-sm">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem"></th>
+            <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+            <th pSortableColumn="codigo">Código <p-sortIcon field="codigo"></p-sortIcon></th>
+            <th pSortableColumn="estado">Estado <p-sortIcon field="estado"></p-sortIcon></th>
+            <th style="width: 10rem">Acciones</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-system>
+          <tr>
+            <td>
+              <i class="pi" [ngClass]="system.icono || 'pi-box'"></i>
+            </td>
+            <td>{{system.nombre}}</td>
+            <td>{{system.codigo}}</td>
+            <td>
+              <p-tag 
+                [value]="system.activo ? 'Activo' : 'Inactivo'" 
+                [severity]="system.activo ? 'success' : 'danger'">
+              </p-tag>
+            </td>
+            <td>
+              <div class="flex gap-2">
+                <button 
+                  pButton 
+                  pRipple 
+                  icon="pi pi-pencil" 
+                  class="p-button-sm p-button-rounded p-button-text"
+                  (click)="editSystem(system)">
+                </button>
+                <button 
+                  pButton 
+                  pRipple 
+                  [icon]="system.activo ? 'pi pi-eye-slash' : 'pi pi-eye'" 
+                  class="p-button-sm p-button-rounded p-button-text"
+                  (click)="toggleSystemStatus(system)">
+                </button>
+                <button 
+                  pButton 
+                  pRipple 
+                  icon="pi pi-trash" 
+                  class="p-button-sm p-button-rounded p-button-text p-button-danger"
+                  (click)="confirmDeleteSystem(system)">
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="5" class="text-center py-6">
+              <div class="text-gray-500">
+                <i class="pi pi-search" style="font-size: 2rem"></i>
+                <p class="mt-2">No se encontraron sistemas</p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-tabPanel>
+    
+    <!-- Tab de Módulos -->
+    <p-tabPanel header="Módulos">
+      <div class="flex justify-content-between mb-4">
+        <p-button 
+          icon="pi pi-plus" 
+          label="Nuevo Módulo" 
+          (onClick)="showNewModuleDialog()">
+        </p-button>
+        
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input 
+            pInputText 
+            type="text" 
+            placeholder="Buscar módulos..." 
+            [(ngModel)]="moduleFilter"
+            (input)="filterModules()">
+        </span>
+      </div>
+      
+      <p-treeTable 
+        [value]="filteredModules" 
+        [paginator]="true" 
+        [rows]="10"
+        [rowsPerPageOptions]="[5,10,25,50]"
+        [loading]="loading"
+        styleClass="p-treetable-sm">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem"></th>
+            <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+            <th pSortableColumn="sistema">Sistema <p-sortIcon field="sistema"></p-sortIcon></th>
+            <th pSortableColumn="ruta">Ruta <p-sortIcon field="ruta"></p-sortIcon></th>
+            <th pSortableColumn="estado">Estado <p-sortIcon field="estado"></p-sortIcon></th>
+            <th style="width: 10rem">Acciones</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowNode let-module="rowData">
+          <tr>
+            <td>
+              <i class="pi" [ngClass]="module.icono || 'pi-folder'"></i>
+            </td>
+            <td>
+              <p-treeTableToggler [rowNode]="rowNode"></p-treeTableToggler>
+              {{module.nombre}}
+            </td>
+            <td>{{module.sistema?.nombre}}</td>
+            <td>{{module.ruta}}</td>
+            <td>
+              <p-tag 
+                [value]="module.activo ? 'Activo' : 'Inactivo'" 
+                [severity]="module.activo ? 'success' : 'danger'">
+              </p-tag>
+            </td>
+            <td>
+              <div class="flex gap-2">
+                <button 
+                  pButton 
+                  pRipple 
+                  icon="pi pi-pencil" 
+                  class="p-button-sm p-button-rounded p-button-text"
+                  (click)="editModule(module)">
+                </button>
+                <button 
+                  pButton 
+                  pRipple 
+                  [icon]="module.activo ? 'pi pi-eye-slash' : 'pi pi-eye'" 
+                  class="p-button-sm p-button-rounded p-button-text"
+                  (click)="toggleModuleStatus(module)">
+                </button>
+                <button 
+                  pButton 
+                  pRipple 
+                  icon="pi pi-trash" 
+                  class="p-button-sm p-button-rounded p-button-text p-button-danger"
+                  (click)="confirmDeleteModule(module)">
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="6" class="text-center py-6">
+              <div class="text-gray-500">
+                <i class="pi pi-search" style="font-size: 2rem"></i>
+                <p class="mt-2">No se encontraron módulos</p>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-treeTable>
+    </p-tabPanel>
+  </p-tabView>
+</div>
+
+<!-- Dialog para Sistema -->
+<p-dialog 
+  header="{{editingSystem ? 'Editar Sistema' : 'Nuevo Sistema'}}" 
+  [(visible)]="systemDialogVisible"
+  [style]="{width: '500px'}" 
+  [modal]="true">
+  
+  <form [formGroup]="systemForm" class="flex flex-col gap-4">
+    <div class="grid grid-cols-12 gap-2">
+      <label for="systemName" class="flex items-center col-span-12 mb-2 md:col-span-3 md:mb-0">Nombre</label>
+      <div class="col-span-12 md:col-span-9">
+        <input 
+          pInputText 
+          id="systemName" 
+          type="text" 
+          formControlName="nombre"
+          placeholder="Ej: Comercialización">
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-12 gap-2">
+      <label for="systemCode" class="flex items-center col-span-12 mb-2 md:col-span-3 md:mb-0">Código</label>
+      <div class="col-span-12 md:col-span-9">
+        <input 
+          pInputText 
+          id="systemCode" 
+          type="text" 
+          formControlName="codigo"
+          placeholder="Ej: COMERCIAL">
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-12 gap-2">
+      <label for="systemIcon" class="flex items-center col-span-12 mb-2 md:col-span-3 md:mb-0">Icono</label>
+      <div class="col-span-12 md:col-span-9">
+        <p-dropdown 
+          [options]="iconOptions" 
+          formControlName="icono"
+          placeholder="Seleccione un icono"
+          [showClear]="true">
+          <ng-template let-icon pTemplate="item">
+            <i class="pi {{icon.value}} mr-2"></i>
+            <span>{{icon.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-12 gap-2">
+      <label class="flex items-center col-span-12 mb-2 md:col-span-3 md:mb-0">Estado</label>
+      <div class="col-span-12 md:col-span-9">
+        <p-inputSwitch formControlName="activo"></p-inputSwitch>
+      </div>
+    </div>
+  </form>
+  
+  <ng-template pTemplate="footer">
+    <p-button 
+      label="Cancelar" 
+      icon="pi pi-times" 
+      (onClick)="hideSystemDialog()"
+      class="p-button-text">
+    </p-button>
+    <p-button 
+      label="Guardar" 
+      icon="pi pi-check" 
+      (onClick)="saveSystem()"
+      [disabled]="!systemForm.valid">
+    </p-button>
+  </ng-template>
+</p-dialog>
+
+<!-- Dialog para Módulo -->
+<p-dialog 
+  header="{{editingModule ? 'Editar Módulo' : 'Nuevo Módulo'}}" 
+  [(visible)]="moduleDialogVisible"
+  [style]="{width: '600px'}" 
+  [modal]="true">
+  
+  <form [formGroup]="moduleForm" class="flex flex-col gap-4">
+    <div class="grid grid-cols-12 gap-2">
+      <label for="moduleSystem" class="flex items-center col-span-12 mb-2 md:col-span-3 md:mb-0">Sistema</label>
+      <div class="col-span-12 md:col-span-9">
+        <p-dropdown 
+          [options]="systems" 
+          formControlName="sistemaId"
+          optionLabel="nombre"
+          placeholder="Seleccione un sistema"
+          [filter]="true"
+          filterBy="nombre"
+          [showClear]="true">
+        </p-dropdown>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-12 gap-2">
+      <label for="moduleName" class="flex items-center col-span-12 mb-2 md:col-span-3 md:mb-0">Nombre</label>
+      <div class="col-span-12 md:col-span-9">
+        <input 
+          pInputText 
+          id="moduleName" 
+          type="text" 
+          formControlName="nombre"
+          placeholder="Ej: Comercial">
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-12 gap-2">
+      <label for="moduleRoute" class="flex items-center col-span-12 mb-2 md:col-span-3 md:mb-0">Ruta</label>
+      <div class="col-span-12 md:col-span-9">
+        <input 
+          pInputText 
+          id="moduleRoute" 
+          type="text" 
+          formControlName="ruta"
+          placeholder="Ej: /comercial">
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-12 gap-2">
+      <label for="moduleIcon" class="flex items-center col-span-12 mb-2 md:col-span-3 md:mb-0">Icono</label>
+      <div class="col-span-12 md:col-span-9">
+        <p-dropdown 
+          [options]="iconOptions" 
+          formControlName="icono"
+          placeholder="Seleccione un icono"
+          [showClear]="true">
+          <ng-template let-icon pTemplate="item">
+            <i class="pi {{icon.value}} mr-2"></i>
+            <span>{{icon.label}}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-12 gap-2">
+      <label for="moduleParent" class="flex items-center col-span-12 mb-2 md:col-span-3 md:mb-0">Módulo Padre</label>
+      <div class="col-span-12 md:col-span-9">
+        <p-treeSelect 
+          [options]="modulesTree" 
+          formControlName="moduloPadreId"
+          placeholder="Seleccione módulo padre"
+          [filter]="true"
+          selectionMode="single"
+          [metaKeySelection]="false"
+          display="chip">
+        </p-treeSelect>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-12 gap-2">
+      <label class="flex items-center col-span-12 mb-2 md:col-span-3 md:mb-0">Estado</label>
+      <div class="col-span-12 md:col-span-9">
+        <p-inputSwitch formControlName="activo"></p-inputSwitch>
+      </div>
+    </div>
+  </form>
+  
+  <ng-template pTemplate="footer">
+    <p-button 
+      label="Cancelar" 
+      icon="pi pi-times" 
+      (onClick)="hideModuleDialog()"
+      class="p-button-text">
+    </p-button>
+    <p-button 
+      label="Guardar" 
+      icon="pi pi-check" 
+      (onClick)="saveModule()"
+      [disabled]="!moduleForm.valid">
+    </p-button>
+  </ng-template>
+</p-dialog>
+
+<!-- Confirmación de eliminación -->
+<p-confirmDialog></p-confirmDialog>
