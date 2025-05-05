@@ -1,0 +1,137 @@
+<div class="card">
+  <p-accordion [multiple]="true" [activeIndex]="[0]">
+    <!-- Panel 1: Crear Perfil -->
+    <p-accordion-panel>
+      <p-accordion-header>
+        <div class="flex align-items-center gap-2">
+          <i class="pi pi-user"></i>
+          <span class="font-semibold">CREAR PERFIL</span>
+        </div>
+      </p-accordion-header>
+      <p-accordion-content>
+        <form [formGroup]="userForm" class="grid formgrid p-fluid">
+          <!-- Información Personal -->
+          <div class="field col-12 md:col-4">
+            <label for="firstName">Nombre</label>
+            <input pInputText id="firstName" formControlName="firstName" placeholder="Ingrese nombres">
+          </div>
+
+          <div class="field col-12 md:col-4">
+            <label for="lastName">Apellido Paterno</label>
+            <input pInputText id="lastName" formControlName="lastName" placeholder="Ingrese apellido paterno">
+          </div>
+
+          <div class="field col-12 md:col-4">
+            <label for="maternalLastName">Apellido Materno</label>
+            <input pInputText id="maternalLastName" formControlName="maternalLastName"
+              placeholder="Ingrese apellido materno">
+          </div>
+
+          <!-- Documento -->
+          <div class="field col-12 md:col-3">
+            <label for="documentType">Tipo Documento</label>
+            <p-dropdown id="documentType" [options]="documentTypes" formControlName="documentType"></p-dropdown>
+          </div>
+
+          <div class="field col-12 md:col-4">
+            <label for="documentNumber">Número Documento</label>
+            <input pInputText id="documentNumber" formControlName="documentNumber" placeholder="Ingrese número">
+          </div>
+
+          <!-- Ubicación -->
+          <div class="field col-12 md:col-5">
+            <label for="sede">Sede</label>
+            <input pInputText id="sede" formControlName="sede" placeholder="Ingrese sede de trabajo">
+          </div>
+
+          <div class="field col-12 md:col-5">
+            <label for="provincia">Provincia</label>
+            <input pInputText id="provincia" formControlName="provincia" placeholder="Ingrese provincia">
+          </div>
+        </form>
+      </p-accordion-content>
+    </p-accordion-panel>
+
+    <!-- Panel 2: Asignar Accesos -->
+    <p-accordion-panel>
+      <p-accordion-header>
+        <div class="flex align-items-center gap-2">
+          <i class="pi pi-key"></i>
+          <span class="font-semibold">ASIGNAR ACCESOS</span>
+        </div>
+      </p-accordion-header>
+      <p-accordion-content>
+        <!-- Sistemas -->
+        <div class="mb-5">
+          <h4 class="mb-3">Sistemas</h4>
+          <div class="grid">
+            <div class="col-12 md:col-4" *ngFor="let system of systems">
+              <div class="field-checkbox">
+                <p-checkbox [binary]="true" [inputId]="'system_' + system.id" [value]="system.id"
+                  [(ngModel)]="selectedSystems" (onChange)="toggleSystem(system.id)">
+                </p-checkbox>
+                <label [for]="'system_' + system.id">{{system.name}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Módulos -->
+        <div class="mb-5" *ngIf="selectedSystems.length > 0">
+          <h4 class="mb-3">Módulos</h4>
+          <div class="grid">
+            <div class="col-12 md:col-4" *ngFor="let module of modules | filterBySystem:selectedSystems">
+              <div class="field-checkbox">
+                <p-checkbox [binary]="true" [inputId]="'module_' + module.id" [(ngModel)]="selectedModules[module.id]"
+                  (onChange)="toggleModule(module.id)">
+                </p-checkbox>
+                <label [for]="'module_' + module.id">{{module.name}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submódulos -->
+        <div class="mb-5" *ngIf="getSelectedModules().length > 0">
+          <h4 class="mb-3">Submódulos</h4>
+          <div class="grid">
+            <div class="col-12 md:col-4" *ngFor="let submodule of submodules | filterByModule:getSelectedModules()">
+              <div class="field-checkbox">
+                <p-checkbox [binary]="true" [inputId]="'submodule_' + submodule.id"
+                  [(ngModel)]="selectedSubmodules[submodule.id]" (onChange)="toggleSubmodule(submodule.id)">
+                </p-checkbox>
+                <label [for]="'submodule_' + submodule.id">{{submodule.name}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Opciones -->
+        <div *ngIf="getSelectedSubmodules().length > 0">
+          <h4 class="mb-3">Opciones</h4>
+          <div *ngFor="let submodule of submodules | filterByIds:getSelectedSubmodules()" class="mb-4">
+            <h5>{{submodule.name}}</h5>
+            <div class="grid">
+              <div class="col-12 md:col-4" *ngFor="let option of options | filterBySubmodule:submodule.id">
+                <div class="field-checkbox">
+                  <p-checkbox [binary]="true" [inputId]="'option_' + option.id" [(ngModel)]="selectedOptions[option.id]"
+                    (onChange)="toggleOption(option.id, submodule.id)">
+                  </p-checkbox>
+                  <label [for]="'option_' + option.id">{{option.name}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-accordion-content>
+    </p-accordion-panel>
+  </p-accordion>
+
+  <!-- Botones -->
+  <div class="flex justify-content-end gap-3 mt-4 p-4">
+    <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-outlined p-button-secondary"
+      (click)="cancel()"></button>
+    <button pButton type="button" label="Guardar" icon="pi pi-check" class="p-button-primary" (click)="submitForm()"
+      [disabled]="userForm.invalid"></button>
+  </div>
+</div>

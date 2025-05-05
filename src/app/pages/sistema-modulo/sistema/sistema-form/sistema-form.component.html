@@ -1,4 +1,20 @@
 <form [formGroup]="sistemaForm" (ngSubmit)="onSubmit()" class="grid formgrid">
+  <!-- Icono -->
+  <div class="field col-12 md:col-6">
+    <label for="icono" class="block text-900 font-medium mb-2">Icono</label>
+    <p-dropdown [options]="iconOptions" formControlName="icono" optionLabel="label" optionValue="value"
+      [disabled]="disabledFields.includes('icono')" placeholder="Seleccione un icono" class="w-full">
+      <ng-template let-icon pTemplate="selectedItem">
+        <i class="pi {{icon.value}} mr-2"></i>
+        <span>{{icon.label}}</span>
+      </ng-template>
+      <ng-template let-icon pTemplate="item">
+        <i class="pi {{icon.value}} mr-2"></i>
+        <span>{{icon.label}}</span>
+      </ng-template>
+    </p-dropdown>
+  </div>
+
   <!-- Nombre -->
   <div class="field col-12 md:col-6">
     <label for="nombre" class="block text-900 font-medium mb-2">Nombre</label>
@@ -27,33 +43,17 @@
     </small>
   </div>
 
-  <!-- Icono -->
-  <div class="field col-12 md:col-6">
-    <label for="icono" class="block text-900 font-medium mb-2">Icono</label>
-    <p-dropdown [options]="iconOptions" formControlName="icono" 
-                optionLabel="label" optionValue="value"
-                [disabled]="disabledFields.includes('icono')"
-                placeholder="Seleccione un icono"
-                class="w-full">
-      <ng-template let-icon pTemplate="selectedItem">
-        <i class="pi {{icon.value}} mr-2"></i>
-        <span>{{icon.label}}</span>
-      </ng-template>
-      <ng-template let-icon pTemplate="item">
-        <i class="pi {{icon.value}} mr-2"></i>
-        <span>{{icon.label}}</span>
-      </ng-template>
-    </p-dropdown>
-  </div>
-
   <!-- Estado -->
-  <div class="field col-12 md:col-6 flex align-items-center">
+  <div class="field col-12 md:col-6 flex align-items-center mt-3">
     <label for="activo" class="block text-900 font-medium mb-2 mr-3">Estado</label>
     <div class="flex align-items-center">
-      <p-inputSwitch formControlName="activo" inputId="activo"
-                    [disabled]="disabledFields.includes('activo')"
-                    class="mr-2"></p-inputSwitch>
-      <span class="text-900">{{ sistemaForm.get('activo')?.value ? 'Activo' : 'Inactivo' }}</span>
+      <p-toggleSwitch
+        id="activo" 
+        inputId="activo-toggle"
+        [disabled]="disabledFields.includes('activo')" 
+        formControlName="activo"
+        class="mr-2"></p-toggleSwitch>
+      <span class="text-900 font-medium">{{ sistemaForm.get('activo')?.value ? 'Activo' : 'Inactivo' }}</span>
     </div>
   </div>
 

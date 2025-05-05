@@ -1,0 +1,48 @@
+:host {
+  display: block;
+  
+  .card {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    
+    .p-accordion-header {
+      font-size: 1.1rem;
+      
+      .pi {
+        font-size: 1rem;
+        margin-right: 0.5rem;
+      }
+    }
+    
+    h4 {
+      color: var(--primary-color);
+      font-size: 1rem;
+      border-bottom: 1px solid var(--surface-border);
+      padding-bottom: 0.5rem;
+    }
+    
+    h5 {
+      font-size: 0.9rem;
+      margin-left: 1rem;
+      color: var(--text-color-secondary);
+    }
+    
+    .field-checkbox {
+      margin-bottom: 0.75rem;
+    }
+  }
+  
+  .p-button {
+    min-width: 120px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  :host {
+    .field {
+      &.col-12, &.col-6, &.col-4, &.col-3 {
+        width: 100%;
+      }
+    }
+  }
+}

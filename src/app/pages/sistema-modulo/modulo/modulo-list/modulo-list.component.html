@@ -8,17 +8,6 @@
             (click)="showNewDialog()"></button>
   </div>
 
-  <div class="mb-4">
-    <span class="p-input-icon-left w-full">
-      <i class="pi pi-search"></i>
-      <input pInputText type="text" 
-             [(ngModel)]="filterValue"
-             (input)="onSearch(filterValue)"
-             placeholder="Buscar módulos..." 
-             class="w-full" />
-    </span>
-  </div>
-
   <app-dynamic-table [config]="tableConfig" 
                      [data]="modulos"
                      [loading]="loading"

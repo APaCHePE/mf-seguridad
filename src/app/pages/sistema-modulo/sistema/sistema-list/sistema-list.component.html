@@ -6,17 +6,6 @@
     </div>
   </div>
 
-  <!-- <div class="mb-4">
-    <span class="p-input-icon-left w-full">
-      <i class="pi pi-search"></i>
-      <input pInputText type="text" 
-             [(ngModel)]="filterValue"
-             (input)="onSearch(filterValue)"
-             placeholder="Buscar sistemas..." 
-             class="w-full" />
-    </span>
-  </div> -->
-
   <app-dynamic-table [config]="tableConfig" [data]="sistemas" [loading]="loading" (action)="onTableAction($event)">
     <ng-template #iconTemplate let-sistema>
       <i class="pi text-xl" [ngClass]="sistema.icono || 'pi-box'"></i>
@@ -30,11 +19,14 @@
   </app-dynamic-table>
 </div>
 
-<p-dialog [(visible)]="dialogVisible" [modal]="true" [style]="{width: '600px'}"
+<p-dialog [(visible)]="dialogVisible" [modal]="true" [style]="{width: '600px'}" [breakpoints]="{ '960px': '75vw' }"
   [header]="currentSistema ? 'Editar Sistema' : 'Nuevo Sistema'">
   <app-sistema-form [sistema]="currentSistema || undefined" [disabledFields]="disabledFields"
     (submitForm)="handleSubmit($event)" (cancel)="dialogVisible = false">
   </app-sistema-form>
+  <ng-template #footer>
+    <p-button label="Save" (click)="close()" />
+  </ng-template>
 </p-dialog>
 
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

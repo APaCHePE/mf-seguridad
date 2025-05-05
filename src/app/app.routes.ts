@@ -10,30 +10,44 @@ export const routes: Routes = [
         path: 'seguridad/dashboards',
         loadComponent: () =>
           import('./pages/dashboard/analytics.component').then(
-            (c) => c.AnalyticsComponent
+            (c) => c.AnalyticsComponent,
           ),
       },
       {
         path: 'seguridad/form-layout',
         loadComponent: () =>
           import('./pages/accesos/accesos.component').then(
-            (m) => m.AccesosComponent
+            (m) => m.AccesosComponent,
           ),
       },
       {
         path: 'seguridad/modulos',
         loadComponent: () =>
           import('./pages/sistema-modulo/sistema-modulo.component').then(
-            (m) => m.SistemaModuloComponent
+            (m) => m.SistemaModuloComponent,
           ),
       },
       {
         path: 'seguridad/modulos2',
         loadComponent: () =>
           import('./pages/sistema-modulo2/modulos.component').then(
-            (m) => m.ModulosComponent
+            (m) => m.ModulosComponent,
           ),
       },
+      {
+        path: 'seguridad/usuarios',
+        loadComponent: () =>
+          import('./pages/mantenimiento-usuario/matenimineto-usuario.component').then(
+            (m) => m.SistemaModuloComponent,
+          ),
+      },
+      // {
+      //   path: 'seguridad/usuarios-form',
+      //   loadComponent: () =>
+      //     import('./pages/sistema-modulo2/modulos.component').then(
+      //       (m) => m.ModulosComponent,
+      //     ),
+      // },
       // {
       //   path: 'seguridad/modulos2',
       //   loadComponent: () =>
@@ -48,5 +62,5 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '**', redirectTo: 'seguridad/notfound' }
-];
+  { path: '**', redirectTo: 'seguridad/notfound' },
+]

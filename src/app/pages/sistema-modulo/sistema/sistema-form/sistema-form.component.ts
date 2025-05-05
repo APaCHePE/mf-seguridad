@@ -5,7 +5,10 @@ import { InputSwitch } from 'primeng/inputswitch';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgIf, NgComponentOutlet } from '@angular/common';
+import { NgIf } from '@angular/common';
+import { InputTextModule } from 'primeng/inputtext'
+import { FloatLabelModule } from 'primeng/floatlabel'
+import { ToggleSwitchModule } from 'primeng/toggleswitch'
 
 @Component({
   selector: 'app-sistema-form',
@@ -16,6 +19,9 @@ import { NgIf, NgComponentOutlet } from '@angular/common';
     DropdownModule,
     FormsModule,
     ReactiveFormsModule,
+    FloatLabelModule,
+    InputTextModule,
+    ToggleSwitchModule,
     NgIf,
   ]
 })

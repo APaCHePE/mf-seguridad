@@ -3,7 +3,11 @@
   <div class="card">
     <p-tabs [(value)]="activeIndex">
       <p-tablist>
-        <p-tab *ngFor="let tab of tabs; let i = index" [value]="i" [disabled]="tab.disabled ?? false">
+        <p-tab 
+          *ngFor="let tab of tabs; let i = index" 
+          [value]="i"
+          [disabled]="tab.disabled ?? false"
+        >
           <span class="flex align-items-center gap-2">
             <i [class]="tab.icon" *ngIf="tab.icon"></i>
             {{tab.header}}
@@ -11,7 +15,7 @@
         </p-tab>
       </p-tablist>
     </p-tabs>
-
+    
     <div class="tab-content p-4">
       <ng-container *ngIf="tabs[activeIndex]">
         <ng-container *ngComponentOutlet="tabs[activeIndex].content">

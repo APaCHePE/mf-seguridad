@@ -6,11 +6,12 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Dialog } from 'primeng/dialog';
+import { DialogModule } from 'primeng/dialog'
 import { NgClass } from '@angular/common';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 import { TableConfig } from '../../../../shared/models/table-config.model';
@@ -32,34 +33,35 @@ import { DynamicTableComponent } from '../../../../shared/components/dynamic-tab
     ToastModule,
     FormsModule,
     NgClass,
-    Dialog,
+    DialogModule,
     ButtonModule,
+    InputTextModule,
     SistemaFormComponent,
   ],
   providers: [ConfirmationService, MessageService],
 })
 export class SistemaListComponent implements OnInit {
-  @ViewChild('statusTemplate') statusTemplate!: TemplateRef<any>;
-  @ViewChild('iconTemplate') iconTemplate!: TemplateRef<any>;
+  @ViewChild('statusTemplate') statusTemplate!: TemplateRef<any>
+  @ViewChild('iconTemplate') iconTemplate!: TemplateRef<any>
 
-  dialogVisible = false;
-  currentSistema: Sistema | null = null;
-  disabledFields: string[] = [];
+  dialogVisible = false
+  currentSistema: Sistema | null = null
+  disabledFields: string[] = []
 
-  sistemas: Sistema[] = [];
-  loading = true;
-  tableConfig!: TableConfig;
-  filterValue: string = '';
+  sistemas: Sistema[] = []
+  loading = true
+  tableConfig!: TableConfig
+  filterValue: string = ''
 
   constructor(
     private sistemaService: SistemaService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {}
 
   ngOnInit(): void {
-    this.initTableConfig();
-    this.loadSistemas();
+    this.initTableConfig()
+    this.loadSistemas()
   }
 
   initTableConfig(): void {
@@ -120,48 +122,57 @@ export class SistemaListComponent implements OnInit {
           tooltip: 'Eliminar',
         },
       ],
-    };
+    }
   }
 
   loadSistemas(): void {
-    this.loading = true;
+    this.loading = true
     this.sistemaService.getAll().subscribe({
       next: (sistemas) => {
-        this.sistemas = sistemas;
-        this.loading = false;
+        this.sistemas = sistemas
+        this.loading = false
       },
       error: (err) => {
-        this.loading = false;
-        this.showError('Error al cargar sistemas', err.error?.message || 'Intente nuevamente');
+        this.loading = false
+        this.showError(
+          'Error al cargar sistemas',
+          err.error?.message || 'Intente nuevamente',
+        )
       },
-    });
+    })
   }
 
   onTableAction(event: { action: string; data: Sistema }): void {
     switch (event.action) {
       case 'edit':
-        this.showFormEditDialog(event.data);
-        break;
+        this.showFormEditDialog(event.data)
+        break
       case 'toggle':
-        this.toggleStatus(event.data);
-        break;
+        this.toggleStatus(event.data)
+        break
       case 'delete':
-        this.confirmDelete(event.data);
-        break;
+        this.confirmDelete(event.data)
+        break
     }
   }
 
   toggleStatus(sistema: Sistema): void {
     this.sistemaService.toggleStatus(sistema.id).subscribe({
       next: (updated) => {
-        const index = this.sistemas.findIndex((s) => s.id === updated.id);
-        if (index !== -1) this.sistemas[index] = updated;
-        this.showSuccess('Estado actualizado', `Sistema ${updated.activo ? 'activado' : 'desactivado'}`);
+        const index = this.sistemas.findIndex((s) => s.id === updated.id)
+        if (index !== -1) this.sistemas[index] = updated
+        this.showSuccess(
+          'Estado actualizado',
+          `Sistema ${updated.activo ? 'activado' : 'desactivado'}`,
+        )
       },
       error: (err) => {
-        this.showError('Error al cambiar estado', err.error?.message || 'Intente nuevamente');
+        this.showError(
+          'Error al cambiar estado',
+          err.error?.message || 'Intente nuevamente',
+        )
       },
-    });
+    })
   }
 
   confirmDelete(sistema: Sistema): void {
@@ -172,57 +183,68 @@ export class SistemaListComponent implements OnInit {
       acceptLabel: 'Eliminar',
       rejectLabel: 'Cancelar',
       accept: () => this.deleteSistema(sistema),
-    });
+    })
   }
 
   deleteSistema(sistema: Sistema): void {
     this.sistemaService.delete(sistema.id).subscribe({
       next: () => {
-        this.sistemas = this.sistemas.filter((s) => s.id !== sistema.id);
-        this.showSuccess('Eliminado', 'Sistema eliminado correctamente');
+        this.sistemas = this.sistemas.filter((s) => s.id !== sistema.id)
+        this.showSuccess('Eliminado', 'Sistema eliminado correctamente')
       },
       error: (err) => {
-        this.showError('Error al eliminar', err.error?.message || 'Intente nuevamente');
+        this.showError(
+          'Error al eliminar',
+          err.error?.message || 'Intente nuevamente',
+        )
       },
-    });
+    })
   }
 
   showFormNewDialog(): void {
-    this.currentSistema = null;
-    this.disabledFields = [];
-    this.dialogVisible = true;
+    this.currentSistema = null
+    this.disabledFields = []
+    this.dialogVisible = true
   }
 
   showFormEditDialog(sistema: Sistema): void {
-    this.currentSistema = sistema;
-    this.disabledFields = ['codigo'];
-    this.dialogVisible = true;
+    this.currentSistema = sistema
+    this.disabledFields = ['codigo']
+    this.dialogVisible = true
   }
 
   handleSubmit(sistemaData: Sistema): void {
-    this.dialogVisible = false;
+    this.dialogVisible = false
     const observable = this.currentSistema
       ? this.sistemaService.update(this.currentSistema.id, sistemaData)
-      : this.sistemaService.create(sistemaData);
+      : this.sistemaService.create(sistemaData)
 
     observable.subscribe({
       next: () => {
-        this.loadSistemas();
+        this.loadSistemas()
         this.showSuccess(
           this.currentSistema ? 'Actualizado' : 'Creado',
-          `Sistema "${sistemaData.nombre}" ${this.currentSistema ? 'actualizado' : 'creado'} correctamente`
-        );
+          `Sistema "${sistemaData.nombre}" ${
+            this.currentSistema ? 'actualizado' : 'creado'
+          } correctamente`,
+        )
       },
-      error: (err) => this.showError('Error', err.error?.message || 'Intente nuevamente'),
-    });
+      error: (err) =>
+        this.showError('Error', err.error?.message || 'Intente nuevamente'),
+    })
   }
 
   private showSuccess(summary: string, detail: string): void {
-    this.messageService.add({ severity: 'success', summary, detail, life: 3000 });
+    this.messageService.add({
+      severity: 'success',
+      summary,
+      detail,
+      life: 3000,
+    })
   }
 
   private showError(summary: string, detail: string): void {
-    this.messageService.add({ severity: 'error', summary, detail, life: 5000 });
+    this.messageService.add({ severity: 'error', summary, detail, life: 5000 })
   }
   // showFormNewDialog(): void {
   //   // Implementar lógica para nuevo sistema
@@ -234,7 +256,16 @@ export class SistemaListComponent implements OnInit {
   //   });
   // }
   onSearch(event: string): void {
-    this.filterValue = event;
+    this.filterValue = event
     // Implementar lógica de filtrado si es necesario
+  }
+
+  display: boolean = false
+  open() {
+    this.display = true
+  }
+
+  close() {
+    this.display = false
   }
 }

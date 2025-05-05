@@ -1,12 +1,24 @@
-<p-table #dt [value]="data" [loading]="loading" [paginator]="mergedConfig.paginator" [rows]="mergedConfig.rows"
+<p-table #dt [value]="data" [loading]="loading" responsiveLayout="scroll"
+  [globalFilterFields]="['header', 'field', 'Ruta']" [paginator]="mergedConfig.paginator" [rows]="mergedConfig.rows"
   [rowsPerPageOptions]="mergedConfig.rowsPerPageOptions" styleClass="p-datatable-sm" [rowHover]="true">
 
+  <ng-template #caption>
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div class="flex gap-2 items-center">
+      </div>
+      <p-iconfield>
+        <p-inputicon class="pi pi-search" />
+        <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar"
+          class="w-full sm:w-auto" />
+      </p-iconfield>
+    </div>
+  </ng-template>
   <ng-template pTemplate="header">
     <tr>
       <th *ngFor="let col of mergedConfig.columns" [pSortableColumn]="col.field"
         [ngClass]="{'p-sortable-column': col.sortable}">
         {{ col.header }}
-        <p-sortIcon *ngIf="col.sortable" [field]="col.field"></p-sortIcon>
+        <p-columnFilter type="text" field="name" display="menu" placeholder="Search by name"></p-columnFilter>
       </th>
       <th *ngIf="mergedConfig.actions.length > 0" style="width: 12rem;"></th>
     </tr>
