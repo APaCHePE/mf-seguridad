@@ -6,7 +6,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { DialogModule } from 'primeng/dialog'
+import { DialogModule } from 'primeng/dialog';
 import { NgClass } from '@angular/common';
 import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';

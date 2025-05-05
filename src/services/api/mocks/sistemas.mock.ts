@@ -8,7 +8,7 @@ export const SISTEMAS_MOCK: Sistema[] = [
     icono: 'pi-shopping-cart',
     activo: true,
     createdAt: new Date('2023-01-01'),
-    updatedAt: new Date('2023-01-01')
+    updatedAt: new Date('2023-01-01'),
   },
   {
     id: 2,
@@ -17,6 +17,15 @@ export const SISTEMAS_MOCK: Sistema[] = [
     icono: 'pi-shield',
     activo: true,
     createdAt: new Date('2023-01-01'),
-    updatedAt: new Date('2023-01-01')
-  }
-];
+    updatedAt: new Date('2023-01-01'),
+  },
+  {
+    id: 3,
+    nombre: 'Operaciones',
+    codigo: 'OPERACIONES',
+    icono: 'pi-plus',
+    activo: true,
+    createdAt: new Date('2023-01-01'),
+    updatedAt: new Date('2023-01-01'),
+  },
+]
