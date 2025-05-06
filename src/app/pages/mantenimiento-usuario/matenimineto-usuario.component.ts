@@ -24,7 +24,6 @@ interface Tab {
 })
 export class SistemaModuloComponent {
   tabs: Tab[] = [
-    { header: 'Form', content: UsuarioFormComponent },
     { header: 'Lista', content: UsuarioListComponent },
   ]
   activeIndex: number = 0

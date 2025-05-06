@@ -4,66 +4,7 @@
       <p>Cambios</p>
     </p-accordionTab>
     <p-accordionTab header="Asignar Accesos">
-      <div class="mb-4">
-        <label class="block mb-2 font-medium">Sistemas:</label>
-        <p-multiSelect [options]="sistemas" [(ngModel)]="selectedSistemas" optionLabel="name"
-          placeholder="Seleccione sistemas" (onChange)="filterBySistemas()" [showToggleAll]="false" class="w-full">
-        </p-multiSelect>
-      </div>
-
-      <p-treetable #tt [value]="filteredData" [columns]="cols" selectionMode="checkbox"
-        [(selectionKeys)]="selectionKeys" dataKey="key" [scrollable]="true" [tableStyle]="{ 'min-width': '50rem' }"
-        [paginator]="true" [rows]="10" [rowsPerPageOptions]="[5, 10, 20]" [filterMode]="filterMode">
-
-        <ng-template pTemplate="caption">
-          <div class="flex justify-content-between align-items-center">
-            <span class="text-lg font-medium">Permisos disponibles</span>
-            <span class="p-input-icon-left">
-              <i class="pi pi-search"></i>
-              <input type="text" pInputText placeholder="Buscar permisos..." (input)="onGlobalSearch($event)"
-                class="w-full" />
-            </span>
-          </div>
-        </ng-template>
-
-        <ng-template pTemplate="header">
-          <tr>
-            <th *ngFor="let col of cols" [style.width]="col.field === 'name' ? '40%' : '20%'">
-              {{ col.header }}
-            </th>
-          </tr>
-        </ng-template>
-
-        <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
-          <tr [ttRow]="rowNode" [ttSelectableRow]="rowNode">
-            <td *ngFor="let col of cols">
-              <span class="flex align-items-center gap-2">
-                <p-treeTableToggler [rowNode]="rowNode" *ngIf="col.field === 'name'" />
-                <p-treeTableCheckbox [value]="rowNode" *ngIf="col.field === 'name'" />
-                {{ rowData[col.field] }}
-              </span>
-            </td>
-          </tr>
-        </ng-template>
-
-        <ng-template pTemplate="emptymessage">
-          <tr>
-            <td [attr.colspan]="cols.length" class="text-center p-4">
-              @if (selectedSistemas.length === 0) {
-              <div class="text-gray-500">
-                <i class="pi pi-info-circle mr-2"></i>
-                Seleccione al menos un sistema para visualizar los permisos
-              </div>
-              } @else {
-              <div class="text-gray-500">
-                <i class="pi pi-search mr-2"></i>
-                No se encontraron permisos para los sistemas seleccionados
-              </div>
-              }
-            </td>
-          </tr>
-        </ng-template>
-      </p-treetable>
+      <p>Accesos</p>
     </p-accordionTab>
   </p-accordion>
 </div>
