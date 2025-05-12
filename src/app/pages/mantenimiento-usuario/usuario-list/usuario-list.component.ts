@@ -15,11 +15,14 @@ import { InputTextModule } from 'primeng/inputtext'
 import { ConfirmDialogModule } from 'primeng/confirmdialog'
 
 import { TableConfig } from '../../../shared/models/table-config.model'
-import { Sistema } from '../../../../services/api/models/sistema.model'
-import { SistemaService } from '../../../../services/api/sistema.service'
+import { Usuario } from '../../../../services/api/models/usuario.model'
+  import { UsuarioService } from '../../../../services/api/usuario.service'
 // import { SistemaFormComponent } from 'sistema-form/sistema-form.component'
 import { StatusTagComponent } from '../../../shared/components/status-tag/status-tag.component'
 import { DynamicTableComponent } from '../../../shared/components/dynamic-table/dynamic-table.component'
+import { UsuarioFormComponent } from '../usuario-form/usuario-form.component'
+import { UsuarioFormNewComponent } from '../usuario-form/usuario-form-new.component'
+import { UsuarioFormEditComponent } from '../usuario-form/usuario-form-edit.component'
 
 @Component({
   selector: 'app-usuario-list',
@@ -34,6 +37,9 @@ import { DynamicTableComponent } from '../../../shared/components/dynamic-table/
     DialogModule,
     ButtonModule,
     InputTextModule,
+    UsuarioFormComponent,
+    UsuarioFormNewComponent,
+    UsuarioFormEditComponent,
     // SistemaFormComponent,
   ],
   providers: [ConfirmationService, MessageService],
@@ -44,17 +50,19 @@ export class UsuarioListComponent implements OnInit {
   @ViewChild('statusTemplate') statusTemplate!: TemplateRef<any>
   @ViewChild('iconTemplate') iconTemplate!: TemplateRef<any>
 
-  dialogVisible = false
-  currentSistema: Sistema | null = null
+  dialogNewVisible = false
+
+  dialogEditVisible = false
+  currentSistema: Usuario | null = null
   disabledFields: string[] = []
 
-  sistemas: Sistema[] = []
+  usuarios: Usuario[] = []
   loading = true
   tableConfig!: TableConfig
   filterValue: string = ''
 
   constructor(
-    private sistemaService: SistemaService,
+    private usuarioService: UsuarioService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
   ) {}
@@ -71,25 +79,18 @@ export class UsuarioListComponent implements OnInit {
       rowsPerPageOptions: [5, 10, 25, 50],
       columns: [
         {
-          field: 'icono',
-          header: '',
-          type: 'icon',
+          field: 'usuario',
+          header: 'Usuario',
+          type: 'text',
           iconPrefix: 'pi',
-          width: '60px',
+          width: '10%',
         },
         {
-          field: 'nombre',
+          field: 'nombreCompleto',
           header: 'Nombre',
           type: 'text',
           sortable: true,
           width: '25%',
-        },
-        {
-          field: 'codigo',
-          header: 'Código',
-          type: 'text',
-          sortable: true,
-          width: '15%',
         },
         {
           field: 'activo',
@@ -127,9 +128,12 @@ export class UsuarioListComponent implements OnInit {
 
   loadSistemas(): void {
     this.loading = true
-    this.sistemaService.getAll().subscribe({
-      next: (sistemas) => {
-        this.sistemas = sistemas
+    this.usuarioService.getAll().subscribe({
+      next: (data) => {
+        this.usuarios = data.map((usuario) => ({
+          ...usuario,
+          nombreCompleto: `${usuario.nombre} ${usuario.apePaterno} ${usuario.apeMaterno}`,
+        }))
         this.loading = false
       },
       error: (err) => {
@@ -142,7 +146,7 @@ export class UsuarioListComponent implements OnInit {
     })
   }
 
-  onTableAction(event: { action: string; data: Sistema }): void {
+  onTableAction(event: { action: string; data: Usuario }): void {
     switch (event.action) {
       case 'edit':
         this.showFormEditDialog(event.data)
@@ -156,14 +160,16 @@ export class UsuarioListComponent implements OnInit {
     }
   }
 
-  toggleStatus(sistema: Sistema): void {
-    this.sistemaService.toggleStatus(sistema.id).subscribe({
+  toggleStatus(Usuario: Usuario): void {
+    this.usuarioService.toggleStatus(Usuario.idUsuario).subscribe({
       next: (updated) => {
-        const index = this.sistemas.findIndex((s) => s.id === updated.id)
-        if (index !== -1) this.sistemas[index] = updated
+        const index = this.usuarios.findIndex(
+          (s) => s.idUsuario === updated.idUsuario,
+        )
+        if (index !== -1) this.usuarios[index] = updated
         this.showSuccess(
           'Estado actualizado',
-          `Sistema ${updated.activo ? 'activado' : 'desactivado'}`,
+          `Usuario ${updated.estado ? true : false}`,
         )
       },
       error: (err) => {
@@ -175,7 +181,7 @@ export class UsuarioListComponent implements OnInit {
     })
   }
 
-  confirmDelete(sistema: Sistema): void {
+  confirmDelete(sistema: Usuario): void {
     this.confirmationService.confirm({
       message: `¿Está seguro de eliminar el sistema "${sistema.nombre}"?`,
       header: 'Confirmar eliminación',
@@ -186,10 +192,12 @@ export class UsuarioListComponent implements OnInit {
     })
   }
 
-  deleteSistema(sistema: Sistema): void {
-    this.sistemaService.delete(sistema.id).subscribe({
+  deleteSistema(usuario: Usuario): void {
+    this.usuarioService.delete(usuario.idUsuario).subscribe({
       next: () => {
-        this.sistemas = this.sistemas.filter((s) => s.id !== sistema.id)
+        this.usuarios = this.usuarios.filter(
+          (s) => s.idUsuario !== usuario.idUsuario,
+        )
         this.showSuccess('Eliminado', 'Sistema eliminado correctamente')
       },
       error: (err) => {
@@ -204,20 +212,22 @@ export class UsuarioListComponent implements OnInit {
   showFormNewDialog(): void {
     this.currentSistema = null
     this.disabledFields = []
-    this.dialogVisible = true
+    this.dialogNewVisible = true
   }
 
-  showFormEditDialog(sistema: Sistema): void {
-    this.currentSistema = sistema
+  showFormEditDialog(usuario: Usuario): void {
+    this.currentSistema = usuario
     this.disabledFields = ['codigo']
-    this.dialogVisible = true
+    this.dialogEditVisible = true
   }
 
-  handleSubmit(sistemaData: Sistema): void {
-    this.dialogVisible = false
+  handleSubmit(sistemaData: Usuario): void {
+    console.log('Nuevo usuario')
+
+    this.dialogNewVisible = false
     const observable = this.currentSistema
-      ? this.sistemaService.update(this.currentSistema.id, sistemaData)
-      : this.sistemaService.create(sistemaData)
+      ? this.usuarioService.update(this.currentSistema.idUsuario, sistemaData)
+      : this.usuarioService.create(sistemaData)
 
     observable.subscribe({
       next: () => {

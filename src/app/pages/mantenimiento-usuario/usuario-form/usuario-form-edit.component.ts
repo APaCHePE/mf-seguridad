@@ -5,19 +5,31 @@ import { AccordionModule } from 'primeng/accordion'
 import { CardModule } from 'primeng/card'
 import { FormPerfilComponent } from './form-perfil/form-perfil.component'
 import { FormAccesoComponent } from './form-acceso/form-acceso.component'
-import { StepperModule } from 'primeng/stepper'
 
 @Component({
-  selector: 'app-usuario-form',
+  selector: 'app-usuario-form-edit',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
     AccordionModule,
     CardModule,
+    // CommonModule,
+    // FormsModule,
+    // ReactiveFormsModule,
+    // AccordionModule,
+    // TreeTableModule,
+    // IconFieldModule,
+    // InputIconModule,
+    // InputTextModule,
+    // MultiSelectModule,
+    // SelectModule,
+    // DropdownModule,
+    // CheckboxModule,
+    // ButtonModule,
+    // CardModule,
     FormPerfilComponent,
     FormAccesoComponent,
-    StepperModule,
   ],
   template: `<div class="flex justify-content-center">
     <p-accordion [multiple]="true" [activeIndex]="[0]">
@@ -29,5 +41,8 @@ import { StepperModule } from 'primeng/stepper'
       </p-accordionTab>
     </p-accordion>
   </div>`,
+  // styleUrls: ['./usuario-form.component.scss'],
+  // providers: [NodeService],
+  // providers: [SystemService, AccessService],
 })
-export class UsuarioFormComponent {}
+export class UsuarioFormEditComponent {}

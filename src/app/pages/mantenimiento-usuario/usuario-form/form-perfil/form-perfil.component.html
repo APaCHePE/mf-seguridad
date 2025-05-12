@@ -1,1 +1,68 @@
-<p>form-perfil works!</p>
+<p-fluid>
+  <div class="flex mt-2">
+    <div class="flex flex-col gap-4 w-full">
+      <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="firstname2">Nombre</label>
+          <input pInputText id="firstname2" type="text" />
+        </div>
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="lastname2">Apellido Paterno</label>
+          <input pInputText id="lastname2" type="text" />
+        </div>
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="lastname2">Apellido Materno</label>
+          <input pInputText id="lastname2" type="text" />
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="firstname2">Tipo documento</label>
+          <p-select id="state" [(ngModel)]="dropdownItemTipoDocumento" [options]="dropdownTipoDocumento"
+            optionLabel="label" placeholder="Seleccione Tipo de documento" class="w-full"></p-select>
+        </div>
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="lastname2">Número documento</label>
+          <input pInputText id="lastname2" type="text" />
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="firstname2">Usuario</label>
+          <input pInputText id="lastname2" type="text" />
+        </div>
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="lastname2">Clave</label>
+          <input pInputText id="lastname2" type="text" />
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="firstname2">Sede default</label>
+          <p-select id="state" [(ngModel)]="dropdownItemSede" [options]="dropdownSede"
+            optionLabel="label" placeholder="Seleccione sede" class="w-full"></p-select>
+        </div>
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="lastname2">Sistema default</label>
+          <p-select id="state" [(ngModel)]="dropdownItemSistema" [options]="dropdownSistema" optionLabel="label"
+            placeholder="Seleccione sistema" class="w-full"></p-select>
+        </div>
+      </div>
+
+      <!-- <div class="flex flex-col md:flex-row gap-4">
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="state">State</label>
+          <p-select id="state" [(ngModel)]="dropdownItem" [options]="dropdownItems" optionLabel="name"
+            placeholder="Select One" class="w-full"></p-select>
+        </div>
+        <div class="flex flex-wrap gap-2 w-full">
+          <label for="zip">Zip</label>
+          <input pInputText id="zip" type="text" />
+        </div>
+      </div> -->
+    </div>
+  </div>
+</p-fluid>

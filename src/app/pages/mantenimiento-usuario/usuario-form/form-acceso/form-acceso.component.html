@@ -1,7 +1,7 @@
 <div class="card p-4">
   <div class="mb-4">
     <label class="block mb-2 font-medium">Sistemas:</label>
-    <p-multiSelect [options]="sistemas" [(ngModel)]="selectedSistemas" optionLabel="nombre"
+    <!-- <p-multiSelect [options]="sistemas" [(ngModel)]="selectedSistemas" optionLabel="nombre"
       placeholder="Seleccione sistemas" (onChange)="filterBySistemas()" [showToggleAll]="false" [loading]="loading"
       class="w-full">
       <ng-template let-system pTemplate="item">
@@ -10,7 +10,16 @@
           <span>{{ system.nombre }}</span>
         </div>
       </ng-template>
-    </p-multiSelect>
+    </p-multiSelect> -->
+    <p-select [(ngModel)]="selectedSistemas" [options]="sistemas" optionLabel="nombre"
+      placeholder="Seleccione un sistema" [loading]="loading" class="w-full" (onChange)="filterBySistemas()">
+      <ng-template let-system pTemplate="item">
+        <div class="flex align-items-center gap-2">
+          <i [class]="'pi ' + system.icono"></i>
+          <span>{{ system.nombre }}</span>
+        </div>
+      </ng-template>
+    </p-select>
   </div>
 
   <p-treetable #tt [value]="filteredData" [columns]="cols" selectionMode="checkbox" [(selectionKeys)]="selectionKeys"
@@ -57,7 +66,7 @@
     <ng-template pTemplate="emptymessage">
       <tr>
         <td [attr.colspan]="cols.length" class="text-center p-4">
-          @if (selectedSistemas.length === 0) {
+          @if (selectedSistemas) {
           <div class="text-gray-500">
             <i class="pi pi-info-circle mr-2"></i>
             Seleccione al menos un sistema para visualizar los permisos

@@ -12,19 +12,8 @@ interface Tab {
 
 @Component({
   selector: 'app-sistema-modulo',
-  imports: [TabViewContainerComponent],
-  template: `
-    <app-tab-view-container
-      [tabs]="tabs"
-      [(activeIndex)]="activeIndex"
-      styleClass="mt-4"
-    >
-    </app-tab-view-container>
-  `,
+  imports: [UsuarioListComponent],
+  template: ` <app-usuario-list styleClass="mt-4"> </app-usuario-list> `,
 })
 export class SistemaModuloComponent {
-  tabs: Tab[] = [
-    { header: 'Lista', content: UsuarioListComponent },
-  ]
-  activeIndex: number = 0
 }

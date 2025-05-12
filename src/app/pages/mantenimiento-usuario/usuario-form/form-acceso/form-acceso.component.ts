@@ -1,11 +1,32 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core'
+import {
+  Component,
+  OnInit,
+  inject,
+  TemplateRef,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { DialogModule } from 'primeng/dialog'
+import { NgClass } from '@angular/common'
+import { ToastModule } from 'primeng/toast'
+import { ButtonModule } from 'primeng/button'
+import { InputTextModule } from 'primeng/inputtext'
+import { ConfirmDialogModule } from 'primeng/confirmdialog'
+import { ConfirmationService, MessageService } from 'primeng/api'
 import { TreeTable, TreeTableModule } from 'primeng/treetable'
 import { TreeNode } from 'primeng/api'
-import { SelectModule } from 'primeng/select'
 import { CardModule } from 'primeng/card'
+import { FormsModule } from '@angular/forms'
 import { NodeService } from '../perfil-data'
-import { SistemaService } from '../../../../../services/api/sistema.service'
+import { SelectModule } from 'primeng/select'
+import { MultiSelect } from 'primeng/multiselect'
 import { Sistema } from '../../../../../services/api/models/sistema.model'
+import { SistemaService } from '../../../../../services/api/sistema.service'
+
+import { TableConfig } from '../../../../shared/models/table-config.model'
+import { StatusTagComponent } from '../../../../shared/components/status-tag/status-tag.component'
+import { DynamicTableComponent } from '../../../../shared/components/dynamic-table/dynamic-table.component'
 
 interface Column {
   field: string
@@ -14,16 +35,28 @@ interface Column {
 
 @Component({
   selector: 'app-form-acceso',
-  imports: [],
+  imports: [
+    CommonModule, 
+    CardModule,
+    FormsModule,
+    FormsModule,
+    MultiSelect,
+    SelectModule,
+    ButtonModule,
+    TreeTableModule,
+    TreeTableModule,
+    InputTextModule,
+    FormAccesoComponent,
+  ],
   templateUrl: './form-acceso.component.html',
   styleUrl: './form-acceso.component.scss',
-  providers: [NodeService],
+  providers: [NodeService, SistemaService],
 })
 export class FormAccesoComponent implements OnInit {
   @ViewChild('tt') tt!: TreeTable
 
   sistemas: Sistema[] = []
-  selectedSistemas: Sistema[] = []
+  selectedSistemas: Sistema | null = null 
   loading = true
 
   permissionData: TreeNode[] = []
@@ -66,16 +99,16 @@ export class FormAccesoComponent implements OnInit {
   }
 
   filterBySistemas(): void {
-    if (!this.selectedSistemas?.length) {
+    if (!this.selectedSistemas) {
       this.filteredData = []
       return
     }
 
-    const sistemasIds = this.selectedSistemas.map((s) => s.id)
-    this.filteredData = this.filterTreeBySystems(
-      this.permissionData,
-      sistemasIds,
-    )
+    // const sistemasIds = this.selectedSistemas.map((s) => s.id)
+    const sistemaId = this.selectedSistemas.id;
+    this.filteredData = this.filterTreeBySystems(this.permissionData, [
+      sistemaId
+    ])
   }
   private filterTreeBySystems(
     nodes: TreeNode[],
