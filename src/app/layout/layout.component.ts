@@ -1,16 +1,9 @@
-import {
-  Component,
-  computed,
-  OnDestroy,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
-import { filter, Subscription } from 'rxjs';
-import { Toast } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
-import { LayoutService } from './service/layout.service';
+import { Component, computed, OnDestroy, Renderer2 } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { NavigationEnd, Router, RouterModule } from '@angular/router'
+import { filter, Subscription } from 'rxjs'
+import { Toast } from 'primeng/toast'
+import { LayoutService } from './service/layout.service'
 
 @Component({
   selector: 'app-layout',
@@ -19,15 +12,14 @@ import { LayoutService } from './service/layout.service';
   templateUrl: './layout.component.html',
 })
 export class LayoutComponent implements OnDestroy {
-
-  overlayMenuOpenSubscription: Subscription;
-  menuOutsideClickListener: any;
-  menuScrollListener: any;
+  overlayMenuOpenSubscription: Subscription
+  menuOutsideClickListener: any
+  menuScrollListener: any
 
   constructor(
     public layoutService: LayoutService,
     public renderer: Renderer2,
-    public router: Router
+    public router: Router,
   ) {
     this.overlayMenuOpenSubscription =
       this.layoutService.overlayOpen$.subscribe(() => {
@@ -36,8 +28,8 @@ export class LayoutComponent implements OnDestroy {
             'document',
             'click',
             (event) => {
-              console.log("Mostrando evento rederer");
-              
+              console.log('Mostrando evento rederer')
+
               // const isOutsideClicked = !(
               //   this.appSidebar.appMenu.el.nativeElement.isSameNode(
               //     event.target
@@ -53,8 +45,8 @@ export class LayoutComponent implements OnDestroy {
               // if (isOutsideClicked) {
               //   this.hideMenu();
               // }
-            }
-          );
+            },
+          )
         }
 
         if (
@@ -75,18 +67,18 @@ export class LayoutComponent implements OnDestroy {
         if (this.layoutService.layoutState().staticMenuMobileActive) {
           // this.blockBodyScroll();
         }
-      });
+      })
 
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
         // this.hideMenu();
-      });
+      })
   }
 
   containerClass = computed(() => {
-    const layoutConfig = this.layoutService.layoutConfig();
-    const layoutState = this.layoutService.layoutState();
+    const layoutConfig = this.layoutService.layoutConfig()
+    const layoutState = this.layoutService.layoutState()
 
     return {
       'layout-overlay': layoutConfig.menuMode === 'overlay',
@@ -109,15 +101,15 @@ export class LayoutComponent implements OnDestroy {
       [`layout-topbar-${layoutConfig.topbarTheme}`]: true,
       [`layout-menu-${layoutConfig.menuTheme}`]: true,
       [`layout-menu-profile-${layoutConfig.menuProfilePosition}`]: true,
-    };
-  });
+    }
+  })
   ngOnDestroy() {
     if (this.overlayMenuOpenSubscription) {
-      this.overlayMenuOpenSubscription.unsubscribe();
+      this.overlayMenuOpenSubscription.unsubscribe()
     }
 
     if (this.menuOutsideClickListener) {
-      this.menuOutsideClickListener();
+      this.menuOutsideClickListener()
     }
   }
 }
